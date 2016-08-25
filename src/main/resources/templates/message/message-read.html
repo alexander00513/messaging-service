@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Message view</title>
+</head>
+<body>
+    <label for="from">Sender</label>
+    <div id="from" th:text="${message.from}"></div>
+    <label for="to" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Recipient</label>
+    <div id="to" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:text="${message.to}"></div>
+    <label for="date">Date</label>
+    <div id="date" th:text="${message.createdDate}"></div>
+    <label for="subject">Subject</label>
+    <div id="subject" th:text="${message.subject}"></div>
+    <label for="message">Message</label>
+    <div id="message" th:text="${message.message}"></div>
+</body>
+</html>

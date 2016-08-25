@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <title>messaging-service</title>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet"/>
+    <script th:src="@{/js/ie10-viewport-bug-workaround.js}"></script>
+
+    <script th:src="@{/js/jquery-3.1.0.min.js}"></script>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <link th:href="@{/css/select2.min.css}" rel="stylesheet"/>
+    <script th:src="@{/js/select2.min.js}"></script>
+
+    <link th:href="@{/css/jquery.dataTables.min.css}" rel="stylesheet"/>
+    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
+
+    <link th:href="@{/css/app.css}" rel="stylesheet"/>
+    <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" th:href="@{/}">messaging-service</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li th:class="${home}"><a th:href="@{/}">Home</a></li>
+                    <li th:class="${users}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a th:href="@{/user-management}">User management</a>
+                    </li>
+                    <li th:class="${registration}"><a th:href="@{/registration}">Registration</a></li>
+                    <li th:class="${login}"><a th:href="@{/login}">Login</a></li>
+                    <li th:class="${logout}" th:if="${#authorization.expression('hasAnyRole(''ROLE_USER, ROLE_ADMIN'')')}">
+                        <a href="#" onclick="changePassModal()">Change pass</a>
+                    </li>
+                    <li th:class="${logout}" th:if="${#authorization.expression('hasAnyRole(''ROLE_USER, ROLE_ADMIN'')')}">
+                        <a th:href="@{/logout}" th:text="'Logout (' + ${#authentication.name} + ')'"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div th:replace="fragment/modal"></div>
+</body>
+</html>

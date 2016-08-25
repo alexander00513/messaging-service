@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login page</title>
+</head>
+<body>
+<div th:replace="fragment/header (login = 'active')"></div>
+<div class="container">
+    <h1 class="form-signin-heading">Please sign in</h1>
+    <form th:action="@{/login}" method="POST">
+        <div class="controls">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="login">Login</label>
+                        <input id="login" type="text" name="username" class="form-control"
+                               placeholder="Please enter login" required="required"
+                               data-error="Valid login is required."/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" class="form-control"
+                               placeholder="Please enter password *" required="required"
+                               data-error="Valid password is required."/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p th:if="${param.error}" class="alert alert-danger">Sorry, but user was not found in system, please try again</p>
+                </div>
+                <div class="col-md-12">
+                    <input type="submit" class="btn btn-success btn-send" value="Sign in"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

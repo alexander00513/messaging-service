@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User view</title>
+</head>
+<body>
+    <label for="firstName">First Name</label>
+    <div id="firstName" th:text="${userDTO.firstName}"></div>
+    <label for="lastName">Last Name</label>
+    <div id="lastName" th:text="${userDTO.lastName}"></div>
+    <label for="email">E-mail</label>
+    <div id="email" th:text="${userDTO.email}"></div>
+    <label for="login">Login</label>
+    <div id="login" th:text="${userDTO.login}"></div>
+    <label for="role">Role</label>
+    <div id="role" th:text="${authorities}"></div>
+</body>
+</html>
