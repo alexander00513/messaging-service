@@ -47,20 +47,25 @@ function initMessageViewAction(table) {
 
 function initMessageDeleteAction(table) {
     $('#messages').find('tbody').on('click', '#btnDelete', function (e) {
-        var data = table.row($(this).parents('tr')).data();
-
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
         var self = $(this);
-        $.ajax({
-            url: '/message/delete/' + data.id,
-            type: 'DELETE',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            success: function (result) {
-                table.row(self.parents('tr')).remove().draw();
+        bootbox.confirm("Are you sure ?", function (result) {
+            if (result) {
+                var data = table.row(self.parents('tr')).data();
+
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+
+
+                $.ajax({
+                    url: '/message/delete/' + data.id,
+                    type: 'DELETE',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success: function (result) {
+                        table.row(self.parents('tr')).remove().draw();
+                    }
+                });
             }
         });
     });
@@ -129,24 +134,28 @@ function initUserEditAction(table) {
 
 function initUserDeleteAction(table) {
     $('#users').find('tbody').on('click', '#btnDelete', function (e) {
-        var data = table.row($(this).parents('tr')).data();
-
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
         var self = $(this);
-        $.ajax({
-            url: '/user/delete/' + data.id,
-            type: 'DELETE',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            success: function (result) {
-                if (result != "") {
-                    showInfo('#errorMessage', result);
-                } else {
-                    table.row(self.parents('tr')).remove().draw();
-                }
+        bootbox.confirm("Are you sure ?", function (result) {
+            if (result) {
+                var data = table.row(self.parents('tr')).data();
+
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+
+                $.ajax({
+                    url: '/user/delete/' + data.id,
+                    type: 'DELETE',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success: function (result) {
+                        if (result != "") {
+                            showInfo('#errorMessage', result);
+                        } else {
+                            table.row(self.parents('tr')).remove().draw();
+                        }
+                    }
+                });
             }
         });
     });
