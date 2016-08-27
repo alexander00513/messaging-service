@@ -99,7 +99,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="newPassword">New Password</label>
-                <input id="newPassword" type="password" class="form-control"
+                <input id="newPassword" type="password" class="form-control" onchange="validatePassword('newPassword', 'newPasswordConfirm')"
                        placeholder="Please enter new password" th:field="${userDTO.newPassword}"/>
                 <div class="help-block with-errors" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
             </div>
@@ -109,7 +109,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="newPasswordConfirm">New Password (Confirm)</label>
-                <input id="newPasswordConfirm" type="password" class="form-control"
+                <input id="newPasswordConfirm" type="password" class="form-control" onkeyup="validatePassword('newPassword', 'newPasswordConfirm')"
                        placeholder="Please enter new password confirm"/>
                 <div class="help-block with-errors"></div>
             </div>
@@ -129,11 +129,11 @@
                      th:errors="*{authorities}"></div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             <input type="submit" class="btn btn-success btn-send" value="Update user"/>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-12">
             <p class="text-muted"><strong>*</strong> These fields are required.</p>
         </div>

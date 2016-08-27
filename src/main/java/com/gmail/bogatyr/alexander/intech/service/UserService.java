@@ -157,17 +157,21 @@ public class UserService implements UserDetailsService {
         Long id = userDTO.getId();
         User user = userRepository.findOne(id);
         if (!isNull(user)) {
+            String newPassword = userDTO.getNewPassword();
+            if(!isEmpty(newPassword)) {
+                String password = userDTO.getPassword();
+                boolean matches = passwordEncoder.matches(password, user.getPassword());
+                if (matches) {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                } else {
+                    return null;
+                }
+            }
+
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setEmail(userDTO.getEmail());
             user.setLogin(userDTO.getLogin());
-
-            String password = userDTO.getPassword();
-            String newPassword = userDTO.getNewPassword();
-            boolean matches = passwordEncoder.matches(password, user.getPassword());
-            if (matches && !isEmpty(newPassword)) {
-                user.setPassword(passwordEncoder.encode(newPassword));
-            }
 
             Set<Authority> authorities = user.getAuthorities();
             authorities.clear();

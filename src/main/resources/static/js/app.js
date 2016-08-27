@@ -63,6 +63,7 @@ function initMessageDeleteAction(table) {
                         xhr.setRequestHeader(header, token);
                     },
                     success: function (result) {
+                        showInfo("#successJsMessage", result.value);
                         table.row(self.parents('tr')).remove().draw();
                     }
                 });
@@ -149,10 +150,11 @@ function initUserDeleteAction(table) {
                         xhr.setRequestHeader(header, token);
                     },
                     success: function (result) {
-                        if (result != "") {
-                            showInfo('#errorMessage', result);
+                        if (result.key == "errorJsMessage") {
+                            showInfo('#errorJsMessage', result.value);
                         } else {
                             table.row(self.parents('tr')).remove().draw();
+                            showInfo('#successJsMessage', result.value);
                         }
                     }
                 });
@@ -171,7 +173,15 @@ function initUserPage() {
 function showInfo(id, msg) {
     $(id).text(msg);
     $(id).show();
-    setTimeout(function () {
-        $(id).hide();
-    }, 2000);
+}
+
+function validatePassword(passIdName, confirmIdName) {
+    var password = document.getElementById(passIdName);
+    var confirm = document.getElementById(confirmIdName);
+
+    if (password.value != confirm.value) {
+        confirm.setCustomValidity("Password and confirm password don't match");
+    } else {
+        confirm.setCustomValidity('');
+    }
 }

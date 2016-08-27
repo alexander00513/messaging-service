@@ -55,9 +55,9 @@
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <input type="submit" class="btn btn-success btn-send" value="Send message"/>
-                </div>
+            </div>
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-success btn-send" value="Send message"/>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -66,6 +66,13 @@
             </div>
         </div>
     </form>
+
+    <div class="col-md-6">
+        <p id="errorRedirectMessage" class="alert alert-danger" th:if="${errorRedirectMessage}" th:text="${errorRedirectMessage}"></p>
+        <p id="successRedirectMessage" class="alert alert-success" th:if="${successRedirectMessage}" th:text="${successRedirectMessage}"></p>
+        <p id="errorJsMessage" class="alert alert-danger hid"></p>
+        <p id="successJsMessage" class="alert alert-success hid"></p>
+    </div>
 
     <table id="messages" class="display" cellspacing="0" width="100%">
         <thead>

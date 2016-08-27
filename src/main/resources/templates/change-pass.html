@@ -22,7 +22,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="newPassword">New Password *</label>
-                    <input id="newPassword" type="password" class="form-control"
+                    <input id="newPassword" type="password" class="form-control" onchange="validatePassword('newPassword', 'newPasswordConfirm')"
                            placeholder="Please enter new password *" required="required"
                            data-error="Valid new password is required." th:field="${userDTO.newPassword}"/>
                     <div class="help-block with-errors" th:if="${#fields.hasErrors('newPassword')}"
@@ -34,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="newPasswordConfirm">New Password (Confirm) *</label>
-                    <input id="newPasswordConfirm" type="password" class="form-control"
+                    <input id="newPasswordConfirm" type="password" class="form-control" onkeyup="validatePassword('newPassword', 'newPasswordConfirm')"
                            placeholder="Please enter new password confirm *" required="required"
                            data-error="Valid new password confirm is required."/>
                     <div class="help-block with-errors"></div>

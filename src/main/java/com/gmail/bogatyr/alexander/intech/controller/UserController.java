@@ -1,6 +1,7 @@
 package com.gmail.bogatyr.alexander.intech.controller;
 
 import com.gmail.bogatyr.alexander.intech.domain.Authority;
+import com.gmail.bogatyr.alexander.intech.domain.User;
 import com.gmail.bogatyr.alexander.intech.dto.UserDTO;
 import com.gmail.bogatyr.alexander.intech.dto.UserDTO.ChangePass;
 import com.gmail.bogatyr.alexander.intech.dto.UserDTO.CreateUser;
@@ -16,11 +17,13 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +70,7 @@ public class UserController {
         if (registration) {
             return "redirect:/";
         } else {
-            model.addAttribute("registrationError", "Registration failed, user with login - " + userDTO.getLogin() + " exists");
+            model.addAttribute("errorMessage", "Registration failed, user with login - " + userDTO.getLogin() + " exists");
             return "registration";
         }
     }
@@ -79,11 +82,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/change-pass", method = RequestMethod.POST)
-    public String changePass(@Validated(ChangePass.class) UserDTO userDTO, BindingResult bindingResult) {
+    public String changePass(@Validated(ChangePass.class) UserDTO userDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "redirect:/";
         }
-        userService.changePass(userDTO);
+        User user = userService.changePass(userDTO);
+        if (isNull(user)) {
+            redirectAttributes.addFlashAttribute("errorRedirectMessage",
+                    "Password can not be updated, you have entered an incorrect current password");
+        } else {
+            redirectAttributes.addFlashAttribute("successRedirectMessage", "Password has been updated successfully");
+        }
         return "redirect:/";
     }
 
@@ -125,21 +134,32 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/update", method = RequestMethod.POST)
-    public String update(@Validated(UpdateUser.class) UserDTO userDTO, BindingResult bindingResult) {
+    public String update(@Validated(UpdateUser.class) UserDTO userDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("User can not be updated \n");
+            bindingResult.getAllErrors().forEach(e -> sb
+                    .append(((FieldError) e).getField()).append(" - ").append(e.getDefaultMessage()).append("\n"));
+            redirectAttributes.addFlashAttribute("errorRedirectMessage", sb.toString());
             return "redirect:/user-management";
         }
-        userService.update(userDTO);
+        User user = userService.update(userDTO);
+        if (isNull(user)) {
+            redirectAttributes.addFlashAttribute("errorRedirectMessage", "User has not been updated");
+        } else {
+            redirectAttributes.addFlashAttribute("successRedirectMessage", "User has been updated successfully");
+        }
         return "redirect:/user-management";
     }
 
     @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String delete(@PathVariable("id") Long id) {
+    public MessageResponce delete(@PathVariable("id") Long id) {
         boolean delete = userService.delete(id);
         if (!delete) {
-            return "User could not be deleted, user has links with messages";
+            return new MessageResponce("errorJsMessage", "User could not be deleted, user has links with messages");
+        } else {
+            return new MessageResponce("successJsMessage", "User has been deleted successfully");
         }
-        return null;
     }
 }

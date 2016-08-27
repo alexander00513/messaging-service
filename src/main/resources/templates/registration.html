@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <label for="password">Password *</label>
                         <input id="password" type="password" class="form-control" placeholder="Please enter password *"
-                               required="required"
+                               required="required" onchange="validatePassword('password', 'passwordConfirm')"
                                data-error="Valid password is required." th:field="${userDTO.password}"/>
                         <div class="help-block with-errors" th:if="${#fields.hasErrors('password')}"
                              th:errors="*{password}"></div>
@@ -72,15 +72,19 @@
                         <label for="passwordConfirm">Password (Confirm) *</label>
                         <input id="passwordConfirm" type="password" class="form-control"
                                placeholder="Please enter password confirm *" required="required"
+                               onkeyup="validatePassword('password', 'passwordConfirm')"
                                data-error="Valid password confirm is required."/>
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p id="errorMessage" class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+                </div>
                 <div class="col-md-12">
                     <input type="submit" class="btn btn-success btn-send" value="Register"/>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-12">
                     <p class="text-muted"><strong>*</strong> These fields are required.</p>
                 </div>
