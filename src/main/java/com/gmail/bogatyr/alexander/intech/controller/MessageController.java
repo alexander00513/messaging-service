@@ -60,8 +60,8 @@ public class MessageController {
 
     @RequestMapping(value = "/message/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public MessageResponce deleteMessage(@PathVariable("id") Long id) {
+    public MessageResponse deleteMessage(@PathVariable("id") Long id) {
         messageService.delete(id);
-        return new MessageResponce("successJsMessage", "Message has been deleted successfully");
+        return new MessageResponse("successJsMessage", "Message has been deleted successfully");
     }
 }

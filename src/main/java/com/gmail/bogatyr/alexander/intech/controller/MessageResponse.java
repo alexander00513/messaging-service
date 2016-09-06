@@ -1,12 +1,12 @@
 package com.gmail.bogatyr.alexander.intech.controller;
 
-class MessageResponce {
+class MessageResponse {
 
-    MessageResponce() {
+    MessageResponse() {
         //nothing
     }
 
-    MessageResponce(String key, String value) {
+    MessageResponse(String key, String value) {
         this.key = key;
         this.value = value;
     }
@@ -32,7 +32,7 @@ class MessageResponce {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("MessageResponce{");
+        final StringBuilder sb = new StringBuilder("MessageResponse{");
         sb.append("key='").append(key).append('\'');
         sb.append(", value='").append(value).append('\'');
         sb.append('}');

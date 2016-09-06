@@ -154,12 +154,12 @@ public class UserController {
 
     @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public MessageResponce delete(@PathVariable("id") Long id) {
+    public MessageResponse delete(@PathVariable("id") Long id) {
         boolean delete = userService.delete(id);
         if (!delete) {
-            return new MessageResponce("errorJsMessage", "User could not be deleted, user has links with messages");
+            return new MessageResponse("errorJsMessage", "User could not be deleted, user has links with messages");
         } else {
-            return new MessageResponce("successJsMessage", "User has been deleted successfully");
+            return new MessageResponse("successJsMessage", "User has been deleted successfully");
         }
     }
 }
